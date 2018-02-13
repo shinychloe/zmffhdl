@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class Main {
+	int N; //일
+	int S; //보관비용
+	int C[] = new int [50010]; //가격
+	int Y[] = new int [50010]; //용량
+
+	public void inputData()  {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		S = sc.nextInt();
+		for (int i = 0; i < N; i++) {
+			C[i] = sc.nextInt();
+			Y[i] = sc.nextInt();
+		}
+	}
+	public void solve(){
+		int price;
+		long sum = 0;
+		
+		price = C[0];
+		sum += C[0]*Y[0];
+		
+		for(int i=1; i<N ; i++){
+			price += S;
+		
+			if(price > C[i]){
+				price = C[i];
+			}
+			//System.out.println(i+" "+price+" "+ Y[i]);
+			sum  += price * Y[i];
+		}
+		
+		System.out.println(sum);
+	}
+
+	public static void main(String[] args){
+		Main m = new Main();
+		long ans = -1;
+
+		m.inputData();				// 입력 함수
+
+		// TODO : 코드를 작성하세요
+		m.solve();
+	
+		//System.out.println(ans);	// 정답 출력
+	}
+}

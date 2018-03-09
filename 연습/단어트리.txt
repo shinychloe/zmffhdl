@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+String[] getInput() {
+    int count = 0;
+    String str = "";
+    String words[] = null;
+
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    try {
+        str = br.readLine();
+        StringTokenizer tokenizerCount = new StringTokenizer(str);
+        count = Integer.parseInt(tokenizerCount.nextToken());
+
+        words = new String[count];
+
+        str = br.readLine();
+        StringTokenizer tokenizer = new StringTokenizer(str);
+        for (int i = 0 ; i < count;i++)
+            words[i] = tokenizer.nextToken();
+
+    } catch (IOException e) {
+
+    }
+    return words;
+}
+
+void solve() {
+    int count;
+
+    String words[] = getInput();
+    count = words.length;
+
+    Arrays.sort(words);
+	
+		String word = "";
+		word += words[0];
+	
+		for(int i=1;i<count;i++){
+			if(i%2==1) 
+				word += words[i];
+			else
+				word = words[i] + word;
+		}
+	
+		char result[] = word.toCharArray();
+		System.out.println(result[result.length/3]);
+
+}
+
+
+public static void main(String[] args) throws IOException {
+    Main s = new Main();
+    s.solve();
+}
+
+}

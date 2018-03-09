@@ -1,0 +1,88 @@
+import java.util.Scanner;
+
+public class Main {
+	int H;			//세로 크기
+	int W;			//가로 크기
+	int map[][] = new int[50][50];		// 지도
+	int fill[][] = new int[50][50];
+
+	class ANS {
+		int count;	// room 개수
+		int area;		// 가장 넓은 room 넓이
+		ANS(int count, int area){
+			this.count = count;
+			this.area = area;
+		}
+	};
+	
+	public boolean isOpen(int input, int dir){
+		return ((input&dir)==dir)? false:true;
+	}
+	
+	int hh[] = {0, 0, 1, -1};
+	int ww[] = {1, -1, 0, 0};
+	int dir[] = {4, 1, 8, 2};
+	public int floodfill(int x, int y){
+		fill[x][y] = 1;
+		int area = 1;
+		
+		for(int i=0;i<4;i++){
+			int nh = x+hh[i];
+			int nw = y+ww[i];
+			
+			if(nh > H || nw > W || nh < 0 || nw < 0) continue;
+			if(!isOpen(map[x][y], dir[i]) ) continue;
+			if(fill[nh][nw] == 1) continue;
+			
+			area += floodfill(nh, nw);
+				
+		}
+		return area;
+	}
+	
+	public void solve(){
+		int area =0;
+		int count =0;
+		int max =0;
+		
+		for(int i=0;i<H;i++){
+			for(int j=0;j<W;j++){
+				if(fill[i][j] == 0){
+					 area = floodfill(i, j);
+					 count++;
+					 if(max < area)
+							max = area;
+				}
+			}
+		}
+		System.out.println(count);
+		System.out.println(max);
+	}
+	
+	public void inputData()  {
+		Scanner sc = new Scanner(System.in);
+		H = sc.nextInt(); 	// 세로크기
+		W = sc.nextInt();	// 가로크기
+		
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
+				map[i][j] = sc.nextInt();
+			}
+		}
+	}
+
+	public static void main(String[] args){
+		Main m = new Main();
+		ANS ans = m.new ANS(0, 0);
+
+		m.inputData();				//	입력 함수
+
+		//	코드를 작성하세요
+		m.solve();
+		
+		
+	
+		//System.out.println(ans.count);	//	정답 출력
+		//System.out.println(ans.area);		//	정답 출력
+	}
+}

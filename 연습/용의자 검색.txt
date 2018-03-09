@@ -1,0 +1,54 @@
+import java.util.*;
+import java.util.regex.*;
+
+class Main {
+	String words;
+	int num;
+	String finder[];
+	
+	public void input(){
+		Scanner scan = new Scanner(System.in);
+		words = scan.nextLine();
+		num = scan.nextInt();
+		
+		finder = new String[num];
+		
+		for(int i=0;i<num;i++){
+			finder[i] = scan.next();
+		}
+		
+	}
+	
+	public void solve(){
+		int max=0; String result="";
+		
+		for(int i=0;i<num;i++){
+			Pattern pattern = Pattern.compile(finder[i]);
+			Matcher matcher = pattern.matcher(words);
+			
+			//System.out.println(finder[i] + " "+ num);
+
+			int count = 0;
+			while(matcher.find())	
+				count++;
+
+			if(count > max){
+				max = count;
+				result = finder[i];
+			}
+		}
+		
+		if(max == 0) 
+			System.out.println("null");
+		else
+			System.out.println(result);
+		
+	}
+	
+  public static void main(String[] args) {
+		Main main = new Main();
+		main.input();
+		main.solve();
+		
+  }
+}

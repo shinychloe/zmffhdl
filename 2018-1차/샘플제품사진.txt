@@ -1,0 +1,91 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.*;
+import java.lang.Math;
+
+public class Main {
+	int N;//제품 수
+	HashSet<Integer> set = new HashSet<Integer>();
+	HashMap<Integer, Integer> idcount = new HashMap<Integer, Integer>();
+	
+	public class st implements Comparable<st>{
+		int X, ID;
+		st(int X, int ID){
+			this.X=X; this.ID=ID;
+		}
+		public int compareTo(st o){
+			return X-o.X;
+		}
+	}
+	ArrayList<st> A = new ArrayList<>();
+
+	public void inputData()  {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		
+		for (int i = 0; i < N; i++) {
+			int X = sc.nextInt();
+			int ID = sc.nextInt();
+			A.add(new st(X, ID));
+			set.add(ID);
+		}
+	}
+
+	public void solve(){
+		int total_size = set.size();
+		int left = 0;
+		int right = 0;
+		int result = 1000000000;
+		
+		set.clear();
+		//sort
+		Collections.sort(A);
+		
+		//id
+		idcount.put(A.get(0).ID, 1);
+		set.add(A.get(0).ID);
+		while(left < N){
+			int current_size = set.size();
+			//still going
+			if(current_size < total_size){
+				right++;
+				if(right >= N) break;
+				if(A.get(left).ID == A.get(right).ID)
+				{
+					//같은 거 연속이면
+					left++;
+				}
+				else
+				{
+					set.add(A.get(right).ID);
+					if(idcount.get(A.get(right).ID) == null)
+						idcount.put(A.get(right).ID, 1);
+					else
+						idcount.put(A.get(right).ID, idcount.get(A.get(right).ID)+1);
+				}
+			}			
+			
+		else{
+			result = Math.min(result, A.get(right).X-A.get(left).X);
+			//left move
+			idcount.put(A.get(left).ID, idcount.get(A.get(left).ID)-1);
+			if(idcount.get(A.get(left).ID) == 0)
+				set.remove(A.get(left).ID);
+			left++;
+			}
+		}
+		System.out.println(result);
+	}
+	public static void main(String[] args){
+		Main m = new Main();
+		int ans = -1;
+
+		m.inputData();				//	입력 함수
+
+		//	코드를 작성하세요
+		m.solve();
+		
+	
+		//System.out.println(ans);	//	정답 출력
+	}
+}
